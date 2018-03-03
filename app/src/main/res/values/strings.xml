@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Foodhack</string>
+    <string name="title_menu">Меню</string>
+    <string name="title_user">Пользователь</string>
+    <string name="title_notifications">Уведомления</string>
+
+
+
+    <string name="login_reg_btn">Создать аккаунт</string>
+    <string name="reg_btn">Регистрация</string>
+    <string name="title_username">Имя пользователя</string>
+    <string name="title_age">Возраст</string>
+
+
+</resources>
