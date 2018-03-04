@@ -1,6 +1,5 @@
 package com.comand.foodhack;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.comand.foodhack.dao.UserDao;
+import com.comand.foodhack.dao.UserDaoImpl;
+import com.comand.foodhack.entity.User;
 import com.comand.foodhack.utils.DatabaseHelper;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     public SQLiteDatabase mSqLiteDatabase;
     private TextView resultView;
+
+    private UserDao userDao;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -62,25 +68,24 @@ public class MainActivity extends AppCompatActivity {
         readFromDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMessage("");
+                showMessage("lol");
             }
         });
 
         DatabaseHelper mDatabaseHelper = new DatabaseHelper(this, "fooddatabase.db", null, 1);
         mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
-
-
+        userDao = new UserDaoImpl(mSqLiteDatabase);
     }
 
     public void printUsers(View view) {
-        Cursor cursor = mSqLiteDatabase.rawQuery("select name from users", null);
-        if(cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                showMessage("User:" + cursor.getString(cursor.getColumnIndex("name")));
-                cursor.moveToNext();
-            }
+        List<User> users = userDao.getUsers();
+        for (User user : users) {
+            showMessage(user.toString());
         }
-        cursor.close();
+    }
+
+    public void createUser(User user) {
+        userDao.addUser(user);
     }
 
 

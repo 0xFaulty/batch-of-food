@@ -1,17 +1,17 @@
 package com.comand.foodhack.entity;
 
 public class User {
-    private String userName;
+    private String name;
     private int age;
-    private int height;
-    private int weight;
+    private double height;
+    private double weight;
     private Activity activity;
     private Sex sex;
 
     private int cal;
 
-    public User(String userName, Sex sex, int age, int height, int weight, Activity activity) {
-        this.userName = userName;
+    public User(String name, Sex sex, int age, double height, double weight, Activity activity) {
+        this.name = name;
         this.sex = sex;
         this.age = age;
         this.height = height;
@@ -29,7 +29,21 @@ public class User {
         return cal;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", activity=" + activity +
+                ", sex=" + sex +
+                ", cal=" + cal +
+                '}';
+    }
+
 }

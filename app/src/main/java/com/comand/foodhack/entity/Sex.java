@@ -1,6 +1,5 @@
 package com.comand.foodhack.entity;
 
-
 public class Sex {
 
     private String name;

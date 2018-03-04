@@ -47,16 +47,16 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     private static final String DB_SEX = "CREATE TABLE IF NOT EXISTS sex " +
             "(id INTEGER PRIMARY KEY autoincrement, name TEXT, coef REAL);";
     private static final String DB_USERS = "CREATE TABLE IF NOT EXISTS users " +
-            "(id INTEGER PRIMARY KEY autoincrement, name TEXT, sex INTEGER REFERENCES sex(id), " +
+            "(id INTEGER PRIMARY KEY autoincrement, name TEXT, sex_id INTEGER REFERENCES sex(id), " +
             "age INTEGER, height REAL, weight REAL, activity_id INTEGER REFERENCES activity(id));";
     private static final String DB_PRODUCTS = "CREATE TABLE IF NOT EXISTS products " +
             "(id INTEGER PRIMARY KEY autoincrement, name TEXT, height REAL, calories REAL, spec TEXT);";
-    private static final String DB_MENUTYPE = "CREATE TABLE IF NOT EXISTS menutype " +
+    private static final String DB_MENU_TYPE = "CREATE TABLE IF NOT EXISTS menutype " +
             "(id INTEGER PRIMARY KEY autoincrement, name TEXT);";
     private static final String DB_MENU = "CREATE TABLE IF NOT EXISTS menus " +
-            "(id INTEGER PRIMARY KEY autoincrement, products TEXT, menutype INTEGER REFERENCES menutype(id), weeknumber INTEGER);";
-    private static final String DB_MENU_SCHEDULE = "CREATE TABLE IF NOT EXISTS menus " +
-            "(id INTEGER PRIMARY KEY autoincrement, products TEXT, menutype INTEGER REFERENCES menutype(id), weeknumber INTEGER);";
+            "(id INTEGER PRIMARY KEY autoincrement, products TEXT, menutype INTEGER REFERENCES menutype(id));";
+    private static final String DB_MENU_SCHEDULE = "CREATE TABLE IF NOT EXISTS schedule " +
+            "(id INTEGER PRIMARY KEY autoincrement, menu_id INTEGER REFERENCES menu(id));";
     private static final String DB_ORDERS = "CREATE TABLE IF NOT EXISTS orders " +
             "(id INTEGER PRIMARY KEY autoincrement, user_id INTEGER REFERENCES users(id), menu_id INTEGER REFERENCES menus(id));";
 
@@ -66,20 +66,21 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
         db.execSQL(DB_SEX);
         db.execSQL(DB_USERS);
         db.execSQL(DB_PRODUCTS);
-        db.execSQL(DB_MENUTYPE);
+        db.execSQL(DB_MENU_TYPE);
         db.execSQL(DB_MENU);
+        db.execSQL(DB_MENU_SCHEDULE);
         db.execSQL(DB_ORDERS);
         testInsert(db);
     }
 
     private void testInsert(SQLiteDatabase db) {
-        db.execSQL("insert into activity(name) values ('Сидячий офисный планктон', 1.2);");
-        db.execSQL("insert into activity(name) values ('2 км пешком каждый день', 1.46);");
-        db.execSQL("insert into activity(name) values ('Занимаюсь спортом, хожу в зал', 1.73);");
-        db.execSQL("insert into sex(name, coef) values ('Мужской', -161);");
-        db.execSQL("insert into sex(name, coef) values ('Женский', 5);");
-        db.execSQL("insert into users(name, age, height, weight, activity_id) values ('Валентин', 0, 21, 187, 70, 1);");
-        db.execSQL("insert into users(name, age, height, weight, activity_id) values ('Настя', 1, 1, 1, 1, 2);");
+        db.execSQL("insert into activity(name, coef) values ('Сидячий офисный планктон', 1.2);");
+        db.execSQL("insert into activity(name, coef) values ('2 км пешком каждый день', 1.46);");
+        db.execSQL("insert into activity(name, coef) values ('Занимаюсь спортом, хожу в зал', 1.73);");
+        db.execSQL("insert into sex(name, coef) values ('Мужской', -161.0);");
+        db.execSQL("insert into sex(name, coef) values ('Женский', 5.0);");
+        db.execSQL("insert into users(name, sex_id, age, height, weight, activity_id) values ('Валентин', 1, 21, 187, 70, 1);");
+        db.execSQL("insert into users(name, sex_id, age, height, weight, activity_id) values ('Настя', 2, 1, 1, 1, 2);");
         db.execSQL("insert into products(name, height, calories, spec) values " +
                 "('Мясо по царски с сыром', 0.75, 400, 'мясо:0.5;сыр чедер:0.25');");
         db.execSQL("insert into products(name, height, calories, spec) values " +
@@ -100,8 +101,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
         db.execSQL("insert into menutype(name) values ('Постное');");
         db.execSQL("insert into menutype(name) values ('Премиум');");
         db.execSQL("insert into menutype(name) values ('Фитнес');");
-        db.execSQL("insert into menus(products, menutype, weeknumber) values ('4;5;1;3;6;2;7', 1, 1);");
-        db.execSQL("insert into menus(products, menutype, weeknumber) values ('1;5;6;3;4;2;7', 1, 1);");
+        db.execSQL("insert into menus(products, menutype) values ('4;5;1;3;6;2;7', 1);");
+        db.execSQL("insert into menus(products, menutype) values ('1;5;6;3;4;2;7', 2);");
+        db.execSQL("insert into schedule(menu_id) values (1);");
+        db.execSQL("insert into schedule(menu_id) values (2);");
         db.execSQL("insert into orders(user_id, menu_id) values (1, 2);");
         db.execSQL("insert into orders(user_id, menu_id) values (2, 1);");
     }
