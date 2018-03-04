@@ -4,10 +4,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,18 +35,21 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_menu:
-                    mTextMessage.setText(R.string.title_menu);
+                    loadFragment(MenuFragment.newInstance());
                     return true;
                 case R.id.navigation_user:
-                    mTextMessage.setText(R.string.title_user);
+                    loadFragment(UserFragment.newInstance());
                     return true;
-                /*case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;*/
             }
             return false;
         }
     };
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fl_content, fragment);
+        ft.commit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,25 +60,27 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Button writeToDB = findViewById(R.id.show_button);
-        writeToDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                printUsers(v);
-            }
-        });
-
-        Button readFromDB = findViewById(R.id.add_button);
-        readFromDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMessage("lol");
-            }
-        });
+//        Button writeToDB = findViewById(R.id.show_button);
+//        writeToDB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                printUsers(v);
+//            }
+//        });
+//
+//        Button readFromDB = findViewById(R.id.add_button);
+//        readFromDB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showMessage("lol");
+//            }
+//        });
 
         DatabaseHelper mDatabaseHelper = new DatabaseHelper(this, "fooddatabase.db", null, 1);
         mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
         userDao = new UserDaoImpl(mSqLiteDatabase);
+
+        loadFragment(MenuFragment.newInstance());
     }
 
     public void printUsers(View view) {

@@ -27,4 +27,10 @@
     <string name="translateFalse">A blank entry!</string>
     <string name="addToBase">Добавить в базу</string>
     <string name="showName">Вывести имя</string>
+    <string name="title_age">Возраст</string>
+    <string name="title_userName">Имя пользователя</string>
+    <string name="title_height">Рост</string>
+    <string name="title_weight">Вес</string>
+    <string name="title_activityUser">Активность</string>
+
 </resources>
