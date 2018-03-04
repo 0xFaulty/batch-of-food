@@ -19,12 +19,14 @@ import com.comand.foodhack.R;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static boolean flagCreatAccount = false;
     EditText etxt_login_name;
     EditText etxt_age;
     EditText etxt_height;
     EditText etxt_weight;
     private int sexUser;
     private double activityUser;
+//    private boolean flagCreatAccount = false;
 
     Button enter;
 
@@ -39,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         etxt_age = findViewById(R.id.etxt_age);
         etxt_height = findViewById(R.id.etxt_height);
         etxt_weight = findViewById(R.id.etxt_weight);
+
+        enter = findViewById(R.id.button_ok);
 
         infoActivityUser = findViewById(R.id.txt_infoActivityUser);
 
@@ -85,18 +89,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        enter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Person person = new Person(String.valueOf(etxt_login_name.getText()),
-//                                            sexUser,
-//                                            Integer.parseInt(etxt_age.getText().toString()),
-//                                            Integer.parseInt(etxt_height.getText().toString()),
-//                                            Integer.parseInt(etxt_weight.getText().toString()),
-//                                            activityUser);
-//
-//            }
-//        });
+        enter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Person person = new Person(String.valueOf(etxt_login_name.getText().toString()),
+                                            sexUser,
+                                            Integer.parseInt(etxt_age.getText().toString()),
+                                            Integer.parseInt(etxt_height.getText().toString()),
+                                            Integer.parseInt(etxt_weight.getText().toString()),
+                                            activityUser);
+                flagCreatAccount = true;
+            }
+        });
+
     }
 }

@@ -1,4 +1,4 @@
-package com.comand.foodhack.activities;
+package com.comand.foodhack;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,9 +11,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.comand.foodhack.R;
+public class Login3Activity extends AppCompatActivity {
 
-public class Login2Activity extends AppCompatActivity {
 
     EditText etxt_login_name;
     EditText etxt_age;
@@ -29,7 +28,7 @@ public class Login2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login2);
+        setContentView(R.layout.activity_login3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,6 +40,8 @@ public class Login2Activity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
 
         etxt_login_name = (EditText) findViewById(R.id.etxt_login_name);
         etxt_age = findViewById(R.id.etxt_age);

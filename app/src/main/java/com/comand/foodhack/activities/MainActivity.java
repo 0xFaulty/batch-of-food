@@ -8,12 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
+import com.comand.foodhack.Login3ActivityFragment;
 import com.comand.foodhack.R;
-import com.comand.foodhack.fragment.Login2ActivityFragment;
-import com.comand.foodhack.fragment.PersonalActivityFragment;
+import com.comand.foodhack.fragment.EventsFragment;
+import com.comand.foodhack.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,22 +28,18 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_menu:
-                    mTextMessage.setText(R.string.title_menu);
+                    transaction.replace(R.id.main_fragment, new EventsFragment()).commit();
                     return true;
                 case R.id.navigation_user:
-                    //работало
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
+//                    работало
+                    if (!LoginActivity.flagCreatAccount) {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    } else transaction.replace(R.id.main_fragment, new HomeFragment()).commit();
 
-//                    transaction.replace(R.id.navigation_menu, new Login2ActivityFragment()).commit();
-
-//                    mTextMessage.setText(R.string.title_user);
-//                    transaction.replace(R.id.main_fragment, new EventsFragment()).commit();
                     return true;
                 case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
-                    transaction.replace(R.id.navigation_menu, new PersonalActivityFragment()).commit();
-
+                    transaction.replace(R.id.main_fragment, new HomeFragment()).commit();
                     return true;
             }
             return false;
@@ -55,13 +51,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-//        navigation.setSelectedItemId(R.id.navigation_menu);
-//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setSelectedItemId(R.id.navigation_menu);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+//
+//        mTextMessage = (TextView) findViewById(R.id.message);
+//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
 //    public void onClick(View view) {
